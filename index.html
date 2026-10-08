@@ -16,14 +16,11 @@
     .board {
       display: grid; max-width: 1280px; margin: 0 auto;
       border-top: 1px solid #000; border-left: 1px solid #000;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 300px;
-      grid-template-areas:
-        "th    due   lad"
-        "cal   cal   lad"
-        "evt   pod   lad"
-        "evt   ask   lad"
-        "promo files lad";
+      grid-template-columns: minmax(0, 1fr) 320px;
     }
+    .main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "th due" "cal cal" "evt pod" "evt ask"; }
+    .aside { display: flex; flex-direction: column; }
+    .aside .cell:last-child { flex: 1; }
     .cell { border-right: 1px solid #000; border-bottom: 1px solid #000; display: flex; flex-direction: column; min-width: 0; }
     .cell-head { background: #0C447C; color: #fff; font-weight: 700; font-size: 15px; text-align: center; padding: 10px 8px; border-bottom: 1px solid #000; }
     .cell-tag { background: #B5D4F4; color: #042C53; font-style: italic; font-size: 14px; text-align: center; padding: 6px 8px; border-bottom: 1px solid #000; }
@@ -55,7 +52,6 @@
     .pill-all { background: #0C447C; color: #fff; }
     .due-links { margin-top: 3px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
 
-    .ladder { position: sticky; top: 16px; }
     .rung { display: grid; grid-template-columns: 20px 58px minmax(0, 1fr) 46px; gap: 8px; align-items: center; padding: 6px 0; }
     .rank { font-weight: 700; color: #555; font-size: 13px; }
     .rung.top .rank { color: #0C447C; font-size: 15px; }
@@ -66,8 +62,12 @@
     .ladder-note { font-size: 12px; color: #666; margin-top: 10px; }
 
     .cal-frame { width: 100%; height: 520px; border: 1px solid #e8e8e8; }
-    .cal-empty { height: 200px; background: #f6f8fb; border: 1px dashed #B5D4F4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 13px; text-align: center; padding: 16px; }
+    .cal-empty { height: 520px; background: #f6f8fb; border: 1px dashed #B5D4F4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 13px; text-align: center; padding: 16px; }
 
+    .cal-legend { display: flex; gap: 18px; font-size: 13px; color: #555; padding: 8px 0 2px; align-items: center; }
+    .cal-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+    .cal-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .cal-legend .pill { margin: 0 0 0 2px; }
     .footer { text-align: center; font-size: 14px; color: #777; margin-top: 20px; }
     .footer a { color: #777; }
 
@@ -82,7 +82,7 @@
           "evt   ask"
           "promo files";
       }
-      .ladder { position: static; }
+      .main, .aside { display: contents; }
     }
     @media (max-width: 700px) {
       body { padding: 16px; }
@@ -92,7 +92,7 @@
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas: "th" "due" "lad" "cal" "evt" "pod" "promo" "files" "ask";
       }
-      .cal-frame { height: 400px; }
+      .cal-frame, .cal-empty { height: 400px; }
     }
   </style>
 </head>
@@ -102,6 +102,8 @@
 <p class="subtitle">Links, deadlines, and standings for E/CDs, committee members, and the SLB</p>
 
 <div class="board">
+
+<div class="main">
 
   <section class="cell" style="grid-area: th;">
     <div class="cell-head">Next Townhall</div>
@@ -116,17 +118,6 @@
   <section class="cell" style="grid-area: due;">
     <div class="cell-head">Due Soon</div>
     <div class="cell-body" id="due-list"></div>
-  </section>
-
-  <section class="cell" style="grid-area: lad;">
-    <div class="cell-head">Cohort Cup Standings</div>
-    <div class="cell-body">
-      <div class="ladder">
-        <div id="ladder"></div>
-        <p class="ladder-note" id="ladder-note"></p>
-        <p class="ladder-note"><a href="https://docs.google.com/spreadsheets/d/12qiTiCDXaFlSVweSKhQ23mM4Xm5u9pGR8ZQ1TlvgCYk/edit" target="_blank">Open the full tracker</a></p>
-      </div>
-    </div>
   </section>
 
   <section class="cell" style="grid-area: cal;">
@@ -193,6 +184,40 @@
     </div>
   </section>
 
+  <section class="cell" style="grid-area: ask;">
+    <div class="cell-head">Who to Ask</div>
+    <div class="cell-body">
+      <div class="row"><span>Budget and funding</span><span class="meta"><a href="mailto:lisapod@wharton.upenn.edu">Lisa Podolsky</a> and <a href="mailto:tadalt@wharton.upenn.edu">Teran Tadal</a></span></div>
+      <div class="row"><span>Event approval</span><span class="meta">Alexsys</span></div>
+      <div class="row"><span>Newsletter</span><span class="meta">Alicia</span></div>
+      <div class="row"><span>Committee chairs</span><span class="pending">coming soon</span></div>
+    </div>
+  </section>
+</div>
+
+<div class="aside">
+
+  <section class="cell" style="grid-area: lad;">
+    <div class="cell-head">Cohort Cup Standings</div>
+    <div class="cell-body">
+      <div class="ladder">
+        <div id="ladder"></div>
+        <p class="ladder-note" id="ladder-note"></p>
+        <p class="ladder-note"><a href="https://docs.google.com/spreadsheets/d/12qiTiCDXaFlSVweSKhQ23mM4Xm5u9pGR8ZQ1TlvgCYk/edit" target="_blank">Open the full tracker</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: files;">
+    <div class="cell-head">Files and Feedback</div>
+    <div class="cell-body">
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1fmNrGdqPI_fyRy60vjyz0ubo0v3emdGYcWwevm1tJ-E/edit" target="_blank">STEP directory</a><span class="meta">sheet</span></div>
+      <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">for E/CDs</span></div>
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">create or join a hang, keep it PG</span></div>
+      <div class="row"><a href="https://padlet.com/ndorazio1/step-feedback-99jv2u5sjvh5r7vr" target="_blank">Feedback board</a><span class="meta">Padlet</span></div>
+    </div>
+  </section>
+
   <section class="cell" style="grid-area: promo;">
     <div class="cell-head">Promote It</div>
     <div class="cell-body">
@@ -208,26 +233,7 @@
       </div>
     </div>
   </section>
-
-  <section class="cell" style="grid-area: ask;">
-    <div class="cell-head">Who to Ask</div>
-    <div class="cell-body">
-      <div class="row"><span>Budget and funding</span><span class="meta"><a href="mailto:lisapod@wharton.upenn.edu">Lisa Podolsky</a> and <a href="mailto:tadalt@wharton.upenn.edu">Teran Tadal</a></span></div>
-      <div class="row"><span>Event approval</span><span class="meta">Alexsys</span></div>
-      <div class="row"><span>Newsletter</span><span class="meta">Alicia</span></div>
-      <div class="row"><span>Committee chairs</span><span class="pending">coming soon</span></div>
-    </div>
-  </section>
-
-  <section class="cell" style="grid-area: files;">
-    <div class="cell-head">Files and Feedback</div>
-    <div class="cell-body">
-      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1fmNrGdqPI_fyRy60vjyz0ubo0v3emdGYcWwevm1tJ-E/edit" target="_blank">STEP directory</a><span class="meta">sheet</span></div>
-      <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">for E/CDs</span></div>
-      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">create or join a hang, keep it PG</span></div>
-      <div class="row"><a href="https://padlet.com/ndorazio1/step-feedback-99jv2u5sjvh5r7vr" target="_blank">Feedback board</a><span class="meta">Padlet</span></div>
-    </div>
-  </section>
+</div>
 
 </div>
 
@@ -237,7 +243,8 @@
 // ---- Settings: fill these in, everything else updates itself ----
 const CONFIG = {
   // Google Calendar > Settings and sharing > Integrate calendar > copy the src URL from the embed code
-  gcalEmbedUrl: '',
+  // Two calendars in one view: STEP 26-27 (dark blue) and STEP Mentorship 26-27 (light blue, E/CDs only)
+  gcalEmbedUrl: 'https://calendar.google.com/calendar/embed?src=c_e1e6091ce8538dc84e6d1ea8d87f584ba7bb5e6f09acf1bf09905138439b83d3%40group.calendar.google.com&color=%233F51B5&src=c_97a7becdfcd383fb81d00ff90fa7dadea3f94646ae87efc6f750d022ff19cf5e%40group.calendar.google.com&color=%23039BE5&ctz=America%2FNew_York&mode=MONTH&wkst=1&showTitle=0&showPrint=0&showCalendars=0&showTz=0',
   // Cohort Cup tracker > File > Share > Publish to web > pick the totals tab > CSV
   // Expected layout: column A = cohort name, column B = total points
   cohortCsvUrl: ''
@@ -297,7 +304,8 @@ if (!live.length) {
 // Calendar
 const cal = document.getElementById('cal');
 cal.innerHTML = CONFIG.gcalEmbedUrl
-  ? `<iframe class="cal-frame" src="${CONFIG.gcalEmbedUrl}" title="STEP Google Calendar" loading="lazy"></iframe>`
+  ? `<iframe class="cal-frame" src="${CONFIG.gcalEmbedUrl}" title="STEP Google Calendar" loading="lazy"></iframe>
+     <div class="cal-legend"><span><i style="background:#3F51B5"></i>STEP</span><span><i style="background:#039BE5"></i>Mentorship <span class="pill pill-ecd">E/CDs</span></span></div>`
   : '<div class="cal-empty">Calendar coming soon</div>';
 
 // Cohort Cup ladder
