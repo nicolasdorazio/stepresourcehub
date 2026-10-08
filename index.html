@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEP Internal Resource Hub</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111; padding: 32px; line-height: 1.45; }
+    a { color: #185FA5; text-decoration: underline; }
+    a:hover { color: #0C447C; }
+    a:focus-visible, button:focus-visible { outline: 2px solid #185FA5; outline-offset: 2px; }
+    h1 { text-align: center; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { text-align: center; font-size: 17px; color: #555; margin-bottom: 24px; }
+
+    .board {
+      display: grid; max-width: 1280px; margin: 0 auto;
+      border-top: 1px solid #000; border-left: 1px solid #000;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 300px;
+      grid-template-areas:
+        "th    due   lad"
+        "cal   cal   lad"
+        "evt   pod   lad"
+        "evt   ask   lad"
+        "promo files lad";
+    }
+    .cell { border-right: 1px solid #000; border-bottom: 1px solid #000; display: flex; flex-direction: column; min-width: 0; }
+    .cell-head { background: #0C447C; color: #fff; font-weight: 700; font-size: 15px; text-align: center; padding: 10px 8px; border-bottom: 1px solid #000; }
+    .cell-tag { background: #B5D4F4; color: #042C53; font-style: italic; font-size: 14px; text-align: center; padding: 6px 8px; border-bottom: 1px solid #000; }
+    .cell-body { padding: 14px 16px; font-size: 14px; flex: 1; }
+
+    .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #e8e8e8; }
+    .row:last-child { border-bottom: none; }
+    .meta { font-size: 12px; color: #666; text-align: right; flex-shrink: 0; }
+    .note { font-size: 13px; color: #555; margin-bottom: 8px; }
+    .pending { font-size: 12px; color: #555; font-style: italic; }
+
+    .big { font-size: 22px; font-weight: 700; margin: 2px 0; }
+    .btn { display: block; text-align: center; background: #0C447C; color: #fff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 10px; border-radius: 8px; margin: 12px 0 8px; }
+    .btn:hover { background: #185FA5; color: #fff; }
+
+    .step { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 6px; padding: 9px 0; border-bottom: 1px solid #e8e8e8; }
+    .step:last-child { border-bottom: none; }
+    .step-n { font-weight: 700; color: #185FA5; }
+    .step-title { font-weight: 700; }
+    .step .note { margin: 2px 0 0; }
+
+    .due-item { padding: 9px 0; border-bottom: 1px solid #e8e8e8; }
+    .due-item:last-child { border-bottom: none; }
+    .due-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .due-date { font-weight: 700; font-size: 13px; color: #185FA5; white-space: nowrap; }
+    .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-right: 6px; vertical-align: 1px; white-space: nowrap; }
+    .pill-ecd { background: #B5D4F4; color: #042C53; }
+    .pill-board { background: #A6EDE3; color: #04342C; }
+    .pill-all { background: #0C447C; color: #fff; }
+    .due-links { margin-top: 3px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+
+    .ladder { position: sticky; top: 16px; }
+    .rung { display: grid; grid-template-columns: 20px 58px minmax(0, 1fr) 46px; gap: 8px; align-items: center; padding: 6px 0; }
+    .rank { font-weight: 700; color: #555; font-size: 13px; }
+    .rung.top .rank { color: #0C447C; font-size: 15px; }
+    .rung.top .cname { font-weight: 700; }
+    .track { height: 14px; background: #f1f1f1; }
+    .bar { height: 14px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+    .score { font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
+    .ladder-note { font-size: 12px; color: #666; margin-top: 10px; }
+
+    .cal-frame { width: 100%; height: 520px; border: 1px solid #e8e8e8; }
+    .cal-empty { height: 200px; background: #f6f8fb; border: 1px dashed #B5D4F4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 13px; text-align: center; padding: 16px; }
+
+    .footer { text-align: center; font-size: 14px; color: #777; margin-top: 20px; }
+    .footer a { color: #777; }
+
+    @media (max-width: 1099px) {
+      .board {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+          "th    due"
+          "lad   lad"
+          "cal   cal"
+          "evt   pod"
+          "evt   ask"
+          "promo files";
+      }
+      .ladder { position: static; }
+    }
+    @media (max-width: 700px) {
+      body { padding: 16px; }
+      h1 { font-size: 20px; }
+      .subtitle { font-size: 15px; }
+      .board {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "th" "due" "lad" "cal" "evt" "pod" "promo" "files" "ask";
+      }
+      .cal-frame { height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>STEP Internal Resource Hub</h1>
+<p class="subtitle">Links, deadlines, and standings for E/CDs, committee members, and the SLB</p>
+
+<div class="board">
+
+  <section class="cell" style="grid-area: th;">
+    <div class="cell-head">Next Townhall</div>
+    <div class="cell-body">
+      <div class="big" id="th-date">Sunday, October 11</div>
+      <div class="note" style="margin: 0;">6 – 7 pm, JMHH G65</div>
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeljY7rWeOIIosYZ1IYS8RCz32ehosXUL8FWrbIsW9xqKMwNQ/viewform" target="_blank">Mark Attendance or Absence</a>
+      <div class="row" style="margin-top: 8px; border-top: 1px solid #e8e8e8; padding-bottom: 0;"><a href="https://drive.google.com/drive/folders/1wpcBBNHoqvykUKHPQO1FVLBuyTNLfSep" target="_blank">Townhall slides</a><span class="meta">Drive folder</span></div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: due;">
+    <div class="cell-head">Due Soon</div>
+    <div class="cell-body" id="due-list"></div>
+  </section>
+
+  <section class="cell" style="grid-area: lad;">
+    <div class="cell-head">Cohort Cup Standings</div>
+    <div class="cell-body">
+      <div class="ladder">
+        <div id="ladder"></div>
+        <p class="ladder-note" id="ladder-note"></p>
+        <p class="ladder-note"><a href="https://docs.google.com/spreadsheets/d/12qiTiCDXaFlSVweSKhQ23mM4Xm5u9pGR8ZQ1TlvgCYk/edit" target="_blank">Open the full tracker</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: cal;">
+    <div class="cell-head">STEP Calendar</div>
+    <div class="cell-body">
+      <div id="cal"></div>
+      <div class="row" style="padding-bottom: 0;">
+        <a href="https://docs.google.com/spreadsheets/d/17ljnOo2FdIgoJjusyTFhIdA45KhCXpJP6N0AAMxDhiQ/edit" target="_blank">Board planning calendar</a>
+        <span class="meta">sheet</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: evt;">
+    <div class="cell-head">Run an Event</div>
+    <div class="cell-body">
+      <div class="step">
+        <span class="step-n">1</span>
+        <div>
+          <a class="step-title" href="https://docs.google.com/forms/d/1wDqE66j-ER4N047U-b_26vqMGydYdDA53f8LZ1IKuaA/viewform" target="_blank">Submit for approval and funding</a>
+          <p class="note">Alexsys reviews the idea and the budget request.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n">2</span>
+        <div>
+          <span class="step-title">Book a room after approval</span>
+          <p class="note"><a href="https://operations.wharton.upenn.edu/wharton-students/" target="_blank">Wharton buildings (JMHH, SHDH, Dinan, etc.)</a></p>
+          <p class="note"><a href="https://spaceandevents.universitylife.upenn.edu/reservations/" target="_blank">University Life spaces (ARCH, Houston Hall, etc.)</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n">3</span>
+        <div>
+          <span class="step-title">Pay for it</span>
+          <p class="note"><a href="https://undergrad-inside.wharton.upenn.edu/purchase-orders/" target="_blank">Request a PO</a> at least 3 days before the event.</p>
+          <p class="note"><a href="https://undergrad-inside.wharton.upenn.edu/reimbursements/" target="_blank">Get reimbursed through Concur</a> for purchases up to $250, within 5 business days. First time? Email ug-finance@wharton.upenn.edu with your name and Penn ID.</p>
+          <p class="note">Meals cap at $35 per person for breakfast or lunch and $55 for dinner, tax and tip included.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n">4</span>
+        <div>
+          <a class="step-title" href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer from Marketing</a>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n">5</span>
+        <div>
+          <a class="step-title" href="https://docs.google.com/forms/d/e/1FAIpQLScwN8TsHiMWEZjTMp1zXAf3xvLiCRVGYwHSY0S1Hz179bF-_w/viewform" target="_blank">Log it afterward</a>
+          <p class="note">Record the activity, headcount, and a photo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: pod;">
+    <div class="cell-head">Pod Hangouts</div>
+    <div class="cell-tag">For E/CDs</div>
+    <div class="cell-body">
+      <p class="note">Each month: one pod or cohort activity, one individual check-in, and one non-STEP campus event with your cohort.</p>
+      <div class="row"><a href="https://docs.google.com/forms/d/e/1FAIpQLScwN8TsHiMWEZjTMp1zXAf3xvLiCRVGYwHSY0S1Hz179bF-_w/viewform" target="_blank">Log a hangout</a><span class="meta">activity, headcount, photo</span></div>
+      <div class="row"><a href="https://nso.upenn.edu/programs/penn-mentor-meals-program/" target="_blank">Mentor Meals</a><span class="meta">free lunch, Mon to Thu</span></div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: promo;">
+    <div class="cell-head">Promote It</div>
+    <div class="cell-body">
+      <p class="note">Write "first-years," never "freshman." Use only the approved logos.</p>
+      <div class="row"><a href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer</a><span class="meta">Marketing</span></div>
+      <div class="row"><span>Newsletter additions</span><span class="meta">text or email Alicia</span></div>
+      <div class="row"><a href="https://upenn.box.com/s/nzrrdtlh40rzsm3gp4q3ahlens9vat65" target="_blank">Approved logos</a><span class="meta">Box</span></div>
+      <div class="row"><a href="https://standards.wharton.upenn.edu/" target="_blank">Wharton brand standards</a></div>
+      <div class="row"><a href="https://www.instagram.com/step.wharton/" target="_blank">@step.wharton</a><span class="meta">tag us</span></div>
+      <div class="row">
+        <span>Weekly campus opportunities<br><span class="meta" style="text-align: left;">SLB: 4 free events to Marketing by Thursday noon</span></span>
+        <span class="pending">link coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: ask;">
+    <div class="cell-head">Who to Ask</div>
+    <div class="cell-body">
+      <div class="row"><span>Budget and funding</span><span class="meta"><a href="mailto:lisapod@wharton.upenn.edu">Lisa Podolsky</a> and <a href="mailto:tadalt@wharton.upenn.edu">Teran Tadal</a></span></div>
+      <div class="row"><span>Event approval</span><span class="meta">Alexsys</span></div>
+      <div class="row"><span>Newsletter</span><span class="meta">Alicia</span></div>
+      <div class="row"><span>Committee chairs</span><span class="pending">coming soon</span></div>
+    </div>
+  </section>
+
+  <section class="cell" style="grid-area: files;">
+    <div class="cell-head">Files and Feedback</div>
+    <div class="cell-body">
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1fmNrGdqPI_fyRy60vjyz0ubo0v3emdGYcWwevm1tJ-E/edit" target="_blank">STEP directory</a><span class="meta">sheet</span></div>
+      <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">for E/CDs</span></div>
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">create or join a hang, keep it PG</span></div>
+      <div class="row"><a href="https://padlet.com/ndorazio1/step-feedback-99jv2u5sjvh5r7vr" target="_blank">Feedback board</a><span class="meta">Padlet</span></div>
+    </div>
+  </section>
+
+</div>
+
+<p class="footer">To request edits or report a broken link, contact <a href="mailto:ndorazio@wharton.upenn.edu">ndorazio@wharton.upenn.edu</a>.</p>
+
+<script>
+// ---- Settings: fill these in, everything else updates itself ----
+const CONFIG = {
+  // Google Calendar > Settings and sharing > Integrate calendar > copy the src URL from the embed code
+  gcalEmbedUrl: '',
+  // Cohort Cup tracker > File > Share > Publish to web > pick the totals tab > CSV
+  // Expected layout: column A = cohort name, column B = total points
+  cohortCsvUrl: ''
+};
+
+const TOWNHALLS = ['2026-10-11', '2026-10-25', '2026-11-08', '2026-11-22', '2026-12-06'];
+
+// Items disappear the day after their due date
+const DUE = [
+  // tag: 'ecd' = E/CDs, 'board' = Board and committees, 'all' = Everyone
+  { title: 'Philly Connections interest form', due: '2026-10-16', tag: 'all', links: [] },
+  { title: 'Mentor and mentee feedback forms', due: '2026-10-23', tag: 'ecd', links: [
+    ['E/CD form', 'https://forms.gle/376YtqqhfKbK4t718'],
+    ['Mentee form', 'https://forms.gle/wUu3uP4U8rd2PeSM7']
+  ]}
+];
+
+const PILLS = { ecd: 'E/CDs', board: 'Board and committees', all: 'Everyone' };
+
+const COHORT_COLORS = {
+  Yen: '#FEEC01', Euro: '#40B4E3', Rupee: '#8A1E11', Peso: '#0559D5', Dollar: '#BFBFBF',
+  Yuan: '#4E36A4', Dinar: '#02563F', Rand: '#B90913', Shekel: '#63D451', Franc: '#FEA025'
+};
+
+// Used until the published CSV is connected, or if it fails to load
+const FALLBACK_SCORES = {
+  label: 'Showing 10/11 townhall standings.',
+  rows: [['Yen', 73.95], ['Euro', 70.45], ['Rupee', 68], ['Peso', 61.9], ['Dollar', 59.1],
+         ['Yuan', 57.85], ['Dinar', 49], ['Rand', 44.55], ['Shekel', 44], ['Franc', 39.15]]
+};
+
+const now = new Date();
+
+// Next townhall: stays up until 7 pm the day of
+const next = TOWNHALLS.map(d => new Date(d + 'T19:00:00')).find(d => d > now);
+document.getElementById('th-date').textContent = next
+  ? next.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  : 'Spring schedule coming soon';
+
+// Due soon
+const dueList = document.getElementById('due-list');
+const live = DUE.filter(x => new Date(x.due + 'T23:59:59') >= now)
+                .sort((a, b) => a.due.localeCompare(b.due));
+if (!live.length) {
+  dueList.innerHTML = '<p class="note" style="margin: 0;">Nothing due right now.</p>';
+} else {
+  dueList.innerHTML = live.map(x => {
+    const date = new Date(x.due + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    const links = x.links.length
+      ? x.links.map(l => `<a href="${l[1]}" target="_blank">${l[0]}</a>`).join('')
+      : '<span class="pending">link coming soon</span>';
+    const pill = PILLS[x.tag] ? `<span class="pill pill-${x.tag}">${PILLS[x.tag]}</span>` : '';
+    return `<div class="due-item"><div class="due-top"><span>${pill}${x.title}</span><span class="due-date">Due ${date}</span></div><div class="due-links">${links}</div></div>`;
+  }).join('');
+}
+
+// Calendar
+const cal = document.getElementById('cal');
+cal.innerHTML = CONFIG.gcalEmbedUrl
+  ? `<iframe class="cal-frame" src="${CONFIG.gcalEmbedUrl}" title="STEP Google Calendar" loading="lazy"></iframe>`
+  : '<div class="cal-empty">Calendar coming soon</div>';
+
+// Cohort Cup ladder
+function drawLadder(rows, label) {
+  const sorted = rows.filter(r => !isNaN(r[1])).sort((a, b) => b[1] - a[1]);
+  const max = sorted.length ? sorted[0][1] : 1;
+  document.getElementById('ladder').innerHTML = sorted.map((r, i) => `
+    <div class="rung${i < 3 ? ' top' : ''}">
+      <span class="rank">${i + 1}</span>
+      <span class="cname">${r[0]}</span>
+      <div class="track"><div class="bar" style="width: ${(r[1] / max * 100).toFixed(1)}%; background: ${COHORT_COLORS[r[0]] || '#888'};"></div></div>
+      <span class="score">${r[1].toFixed(2)}</span>
+    </div>`).join('');
+  document.getElementById('ladder-note').textContent = label;
+}
+
+function parseCsv(text) {
+  return text.trim().split(/\r?\n/)
+    .map(line => line.split(',').map(c => c.replace(/^"|"$/g, '').trim()))
+    .filter(c => c.length >= 2 && COHORT_COLORS[c[0]] !== undefined)
+    .map(c => [c[0], parseFloat(c[1])]);
+}
+
+if (CONFIG.cohortCsvUrl) {
+  const sep = CONFIG.cohortCsvUrl.includes('?') ? '&' : '?';
+  fetch(CONFIG.cohortCsvUrl + sep + 'cb=' + Date.now())
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(t => {
+      const rows = parseCsv(t);
+      if (!rows.length) throw new Error('No cohort rows found');
+      drawLadder(rows, 'Live from the Cohort Cup tracker.');
+    })
+    .catch(() => drawLadder(FALLBACK_SCORES.rows, "Couldn't load live scores. " + FALLBACK_SCORES.label));
+} else {
+  drawLadder(FALLBACK_SCORES.rows, FALLBACK_SCORES.label);
+}
+</script>
+</body>
+</html>
