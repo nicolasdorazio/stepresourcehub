@@ -41,6 +41,10 @@
     .step-n { font-weight: 700; color: #185FA5; }
     .step-title { font-weight: 700; }
     .step .note { margin: 2px 0 0; }
+    .step-list { font-size: 13px; color: #555; margin: 4px 0 0; padding-left: 18px; }
+    .step-list li { margin-bottom: 5px; }
+    .step-list li:last-child { margin-bottom: 0; }
+    .step-list ul { padding-left: 18px; margin-top: 5px; list-style: circle; }
 
     .due-item { padding: 9px 0; border-bottom: 1px solid #e8e8e8; }
     .due-item:last-child { border-bottom: none; }
@@ -109,9 +113,9 @@
     <div class="cell-head">Next Townhall</div>
     <div class="cell-body">
       <div class="big" id="th-date">Sunday, October 11</div>
-      <div class="note" style="margin: 0;">6 – 7 pm, JMHH G65</div>
+      <div class="note" style="margin: 0;">6–7 pm, JMHH G65</div>
       <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeljY7rWeOIIosYZ1IYS8RCz32ehosXUL8FWrbIsW9xqKMwNQ/viewform" target="_blank">Mark Attendance or Absence</a>
-      <div class="row" style="margin-top: 8px; border-top: 1px solid #e8e8e8; padding-bottom: 0;"><a href="https://drive.google.com/drive/folders/1wpcBBNHoqvykUKHPQO1FVLBuyTNLfSep" target="_blank">Townhall slides</a><span class="meta">Drive folder</span></div>
+      <div class="row" style="margin-top: 8px; border-top: 1px solid #e8e8e8; padding-bottom: 0;"><a href="https://drive.google.com/drive/folders/1wpcBBNHoqvykUKHPQO1FVLBuyTNLfSep" target="_blank">Townhall slides</a><span class="meta">Google Drive folder</span></div>
     </div>
   </section>
 
@@ -125,8 +129,8 @@
     <div class="cell-body">
       <div id="cal"></div>
       <div class="row" style="padding-bottom: 0;">
-        <a href="https://docs.google.com/spreadsheets/d/17ljnOo2FdIgoJjusyTFhIdA45KhCXpJP6N0AAMxDhiQ/edit" target="_blank">Board planning calendar</a>
-        <span class="meta">sheet</span>
+        <a href="https://docs.google.com/spreadsheets/d/17ljnOo2FdIgoJjusyTFhIdA45KhCXpJP6N0AAMxDhiQ/edit" target="_blank">Visual Calendar</a>
+        <span class="meta">Google Sheet</span>
       </div>
     </div>
   </section>
@@ -137,31 +141,41 @@
       <div class="step">
         <span class="step-n">1</span>
         <div>
-          <a class="step-title" href="https://docs.google.com/forms/d/1wDqE66j-ER4N047U-b_26vqMGydYdDA53f8LZ1IKuaA/viewform" target="_blank">Submit for approval and funding</a>
-          <p class="note">Alexsys reviews the idea and the budget request.</p>
+          <a class="step-title" href="https://docs.google.com/forms/d/1wDqE66j-ER4N047U-b_26vqMGydYdDA53f8LZ1IKuaA/viewform" target="_blank">Submit your idea for approval &amp; funding</a>
+          <p class="note">Alexsys, the Social Committee, and the Directors will review your submission and be in touch.</p>
         </div>
       </div>
       <div class="step">
         <span class="step-n">2</span>
         <div>
-          <span class="step-title">Book a room after approval</span>
-          <p class="note"><a href="https://operations.wharton.upenn.edu/wharton-students/" target="_blank">Wharton buildings (JMHH, SHDH, Dinan, etc.)</a></p>
-          <p class="note"><a href="https://spaceandevents.universitylife.upenn.edu/reservations/" target="_blank">University Life spaces (ARCH, Houston Hall, etc.)</a></p>
+          <span class="step-title">Look into spaces to host this event</span>
+          <ul class="step-list">
+            <li><a href="https://operations.wharton.upenn.edu/wharton-students/" target="_blank">Wharton buildings (JMHH, SHDH, Dinan, etc.)</a></li>
+            <li><a href="https://spaceandevents.universitylife.upenn.edu/reservations/" target="_blank">University Life spaces (ARCH, Houston Hall, etc.)</a></li>
+            <li>Think beyond classrooms: High Rise Field, Kelly Writers House, Perry World House, Penn Park, College Green, Penn Museum, Arthur Ross Gallery, and more.</li>
+          </ul>
         </div>
       </div>
       <div class="step">
         <span class="step-n">3</span>
         <div>
           <span class="step-title">Pay for it</span>
-          <p class="note"><a href="https://undergrad-inside.wharton.upenn.edu/purchase-orders/" target="_blank">Request a PO</a> at least 3 days before the event.</p>
-          <p class="note"><a href="https://undergrad-inside.wharton.upenn.edu/reimbursements/" target="_blank">Get reimbursed through Concur</a> for purchases up to $250, within 5 business days. First time? Email ug-finance@wharton.upenn.edu with your name and Penn ID.</p>
-          <p class="note">Meals cap at $35 per person for breakfast or lunch and $55 for dinner, tax and tip included.</p>
+          <ul class="step-list">
+            <li><a href="https://undergrad-inside.wharton.upenn.edu/purchase-orders/" target="_blank">Request a PO</a> at least 3 days before the event, then give the vendor the PO number from Undergrad Finance and <a href="po-instructions-for-vendors.pdf" download>this PO instructions document</a>.</li>
+            <li><a href="https://undergrad-inside.wharton.upenn.edu/reimbursements/" target="_blank">Get reimbursed through Concur</a> for purchases up to $250, within 5 business days.
+              <ul>
+                <li>First time using Concur? Email <a href="mailto:ug-finance@wharton.upenn.edu" style="white-space: nowrap;">ug-finance@wharton.upenn.edu</a> with your name and Penn ID.</li>
+                <li>Meals cap at $35 per person for breakfast or lunch and $55 for dinner, tax and tip included.</li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="step">
         <span class="step-n">4</span>
         <div>
           <a class="step-title" href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer from Marketing</a>
+          <p class="note">Alicia &amp; the Marketing Committee can help promote your event.</p>
         </div>
       </div>
       <div class="step">
@@ -179,18 +193,16 @@
     <div class="cell-tag">For E/CDs</div>
     <div class="cell-body">
       <p class="note">Each month: one pod or cohort activity, one individual check-in, and one non-STEP campus event with your cohort.</p>
-      <div class="row"><a href="https://docs.google.com/forms/d/e/1FAIpQLScwN8TsHiMWEZjTMp1zXAf3xvLiCRVGYwHSY0S1Hz179bF-_w/viewform" target="_blank">Log a hangout</a><span class="meta">activity, headcount, photo</span></div>
-      <div class="row"><a href="https://nso.upenn.edu/programs/penn-mentor-meals-program/" target="_blank">Mentor Meals</a><span class="meta">free lunch, Mon to Thu</span></div>
-    </div>
+      <div class="row"><a href="https://docs.google.com/forms/d/e/1FAIpQLScwN8TsHiMWEZjTMp1zXAf3xvLiCRVGYwHSY0S1Hz179bF-_w/viewform" target="_blank">Log a hangout</a><span class="meta">Google Form</span></div>
+      <div class="row"><a href="https://nso.upenn.edu/programs/penn-mentor-meals-program/" target="_blank">Mentor Meals</a><span class="meta">Website</span></div>    </div>
   </section>
 
   <section class="cell" style="grid-area: ask;">
     <div class="cell-head">Who to Ask</div>
     <div class="cell-body">
-      <div class="row"><span>Budget and funding</span><span class="meta"><a href="mailto:lisapod@wharton.upenn.edu">Lisa Podolsky</a> and <a href="mailto:tadalt@wharton.upenn.edu">Teran Tadal</a></span></div>
-      <div class="row"><span>Event approval</span><span class="meta">Alexsys</span></div>
-      <div class="row"><span>Newsletter</span><span class="meta">Alicia</span></div>
-      <div class="row"><span>Committee chairs</span><span class="pending">coming soon</span></div>
+      <div class="row"><span>Budget and funding</span><span class="meta"><a href="mailto:lisapod@wharton.upenn.edu">Lisa</a> and <a href="mailto:tadalt@wharton.upenn.edu">Teran</a></span></div>
+      <div class="row"><span>Event approval</span><span class="meta"><a href="mailto:alexsys@wharton.upenn.edu">Alexsys</a></span></div>
+      <div class="row"><span>Newsletter</span><span class="meta"><a href="mailto:aliciatn@wharton.upenn.edu">Alicia</a></span></div>
     </div>
   </section>
 </div>
@@ -202,8 +214,7 @@
     <div class="cell-body">
       <div class="ladder">
         <div id="ladder"></div>
-        <p class="ladder-note" id="ladder-note"></p>
-        <p class="ladder-note"><a href="https://docs.google.com/spreadsheets/d/12qiTiCDXaFlSVweSKhQ23mM4Xm5u9pGR8ZQ1TlvgCYk/edit" target="_blank">Open the full tracker</a></p>
+        <p class="ladder-note"><a href="https://docs.google.com/spreadsheets/d/12qiTiCDXaFlSVweSKhQ23mM4Xm5u9pGR8ZQ1TlvgCYk/edit" target="_blank">Open the full tracker</a>. <span id="ladder-note"></span></p>
       </div>
     </div>
   </section>
@@ -211,9 +222,9 @@
   <section class="cell" style="grid-area: files;">
     <div class="cell-head">Files and Feedback</div>
     <div class="cell-body">
-      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1fmNrGdqPI_fyRy60vjyz0ubo0v3emdGYcWwevm1tJ-E/edit" target="_blank">STEP directory</a><span class="meta">sheet</span></div>
-      <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">for E/CDs</span></div>
-      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">create or join a hang, keep it PG</span></div>
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1fmNrGdqPI_fyRy60vjyz0ubo0v3emdGYcWwevm1tJ-E/edit" target="_blank">STEP directory</a><span class="meta">Google Sheet</span></div>
+      <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">Google Drive folder</span></div>
+      <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">Google Sheet</span></div>
       <div class="row"><a href="https://padlet.com/ndorazio1/step-feedback-99jv2u5sjvh5r7vr" target="_blank">Feedback board</a><span class="meta">Padlet</span></div>
     </div>
   </section>
@@ -221,16 +232,11 @@
   <section class="cell" style="grid-area: promo;">
     <div class="cell-head">Promote It</div>
     <div class="cell-body">
-      <p class="note">Write "first-years," never "freshman." Use only the approved logos.</p>
-      <div class="row"><a href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer</a><span class="meta">Marketing</span></div>
-      <div class="row"><span>Newsletter additions</span><span class="meta">text or email Alicia</span></div>
-      <div class="row"><a href="https://upenn.box.com/s/nzrrdtlh40rzsm3gp4q3ahlens9vat65" target="_blank">Approved logos</a><span class="meta">Box</span></div>
-      <div class="row"><a href="https://standards.wharton.upenn.edu/" target="_blank">Wharton brand standards</a></div>
-      <div class="row"><a href="https://www.instagram.com/step.wharton/" target="_blank">@step.wharton</a><span class="meta">tag us</span></div>
-      <div class="row">
-        <span>Weekly campus opportunities<br><span class="meta" style="text-align: left;">SLB: 4 free events to Marketing by Thursday noon</span></span>
-        <span class="pending">link coming soon</span>
-      </div>
+      <div class="row"><span>Newsletter additions</span><span class="meta">text or <a href="mailto:aliciatn@wharton.upenn.edu">email Alicia</a></span></div>
+      <div class="row"><a href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer</a><span class="meta">Google Form</span></div>
+      <div class="row"><a href="https://upenn.box.com/s/nzrrdtlh40rzsm3gp4q3ahlens9vat65" target="_blank">Approved logos</a><span class="meta">Box folder</span></div>
+      <div class="row"><a href="https://standards.wharton.upenn.edu/" target="_blank">Wharton brand standards</a><span class="meta">Website</span></div>
+      <div class="row"><a href="https://www.instagram.com/step.wharton/" target="_blank">Tag our Instagram</a><span class="meta">Instagram</span></div>
     </div>
   </section>
 </div>
@@ -246,8 +252,8 @@ const CONFIG = {
   // Two calendars in one view: STEP 26-27 (dark blue) and STEP Mentorship 26-27 (light blue, E/CDs only)
   gcalEmbedUrl: 'https://calendar.google.com/calendar/embed?src=c_e1e6091ce8538dc84e6d1ea8d87f584ba7bb5e6f09acf1bf09905138439b83d3%40group.calendar.google.com&color=%233F51B5&src=c_97a7becdfcd383fb81d00ff90fa7dadea3f94646ae87efc6f750d022ff19cf5e%40group.calendar.google.com&color=%23039BE5&ctz=America%2FNew_York&mode=MONTH&wkst=1&showTitle=0&showPrint=0&showCalendars=0&showTz=0',
   // Cohort Cup tracker > File > Share > Publish to web > pick the totals tab > CSV
-  // Expected layout: column A = cohort name, column B = total points
-  cohortCsvUrl: ''
+  // Columns can move: the page finds the cohort names anywhere in a row and reads the column headed "Total"
+  cohortCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlzjumOr3BCh4zsM7pEuQukxNJYGh7MWYFDFX0FNkYaxAwubHBNiOgTI_QZqIbphrCVDzQNaOIUn-v/pub?output=csv'
 };
 
 const TOWNHALLS = ['2026-10-11', '2026-10-25', '2026-11-08', '2026-11-22', '2026-12-06'];
@@ -271,7 +277,7 @@ const COHORT_COLORS = {
 
 // Used until the published CSV is connected, or if it fails to load
 const FALLBACK_SCORES = {
-  label: 'Showing 10/11 townhall standings.',
+  label: 'Last updated 10/11.',
   rows: [['Yen', 73.95], ['Euro', 70.45], ['Rupee', 68], ['Peso', 61.9], ['Dollar', 59.1],
          ['Yuan', 57.85], ['Dinar', 49], ['Rand', 44.55], ['Shekel', 44], ['Franc', 39.15]]
 };
@@ -305,7 +311,7 @@ if (!live.length) {
 const cal = document.getElementById('cal');
 cal.innerHTML = CONFIG.gcalEmbedUrl
   ? `<iframe class="cal-frame" src="${CONFIG.gcalEmbedUrl}" title="STEP Google Calendar" loading="lazy"></iframe>
-     <div class="cal-legend"><span><i style="background:#3F51B5"></i>STEP</span><span><i style="background:#039BE5"></i>Mentorship <span class="pill pill-ecd">E/CDs</span></span></div>`
+     <div class="cal-legend"><span><i style="background:#3F51B5"></i>All STEP</span><span><i style="background:#039BE5"></i>ECDs &amp; CDs Only</span></div>`
   : '<div class="cal-empty">Calendar coming soon</div>';
 
 // Cohort Cup ladder
@@ -322,11 +328,50 @@ function drawLadder(rows, label) {
   document.getElementById('ladder-note').textContent = label;
 }
 
+function splitCsv(text) {
+  const rows = [];
+  let row = [], cell = '', quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else cell += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(cell.trim()); cell = ''; }
+    else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      row.push(cell.trim()); rows.push(row); row = []; cell = '';
+    } else cell += ch;
+  }
+  row.push(cell.trim()); rows.push(row);
+  return rows;
+}
+
+const toNum = s => parseFloat(String(s).replace(/[^0-9.\-]/g, ''));
+
 function parseCsv(text) {
-  return text.trim().split(/\r?\n/)
-    .map(line => line.split(',').map(c => c.replace(/^"|"$/g, '').trim()))
-    .filter(c => c.length >= 2 && COHORT_COLORS[c[0]] !== undefined)
-    .map(c => [c[0], parseFloat(c[1])]);
+  const rows = splitCsv(text);
+  // Totals column: a header exactly "Total" or "Total Points" wins, otherwise any header containing "total"
+  let totalCol = -1;
+  for (const r of rows) {
+    const exact = r.findIndex(c => /^total( points)?$/i.test(c));
+    const loose = r.findIndex(c => /total/i.test(c));
+    if (exact >= 0 || loose >= 0) { totalCol = exact >= 0 ? exact : loose; break; }
+  }
+  const seen = {};
+  const out = [];
+  for (const r of rows) {
+    const nameCol = r.findIndex(c => COHORT_COLORS[c] !== undefined);
+    if (nameCol < 0 || seen[r[nameCol]]) continue;
+    // No "Total" header found: fall back to the rightmost number in the row
+    let score = totalCol >= 0 ? toNum(r[totalCol]) : NaN;
+    if (totalCol < 0) for (let j = r.length - 1; j > nameCol; j--) { if (!isNaN(toNum(r[j]))) { score = toNum(r[j]); break; } }
+    if (isNaN(score)) continue;
+    seen[r[nameCol]] = true;
+    out.push([r[nameCol], score]);
+  }
+  return out;
 }
 
 if (CONFIG.cohortCsvUrl) {
@@ -336,7 +381,7 @@ if (CONFIG.cohortCsvUrl) {
     .then(t => {
       const rows = parseCsv(t);
       if (!rows.length) throw new Error('No cohort rows found');
-      drawLadder(rows, 'Live from the Cohort Cup tracker.');
+      drawLadder(rows, 'Updates automatically.');
     })
     .catch(() => drawLadder(FALLBACK_SCORES.rows, "Couldn't load live scores. " + FALLBACK_SCORES.label));
 } else {
