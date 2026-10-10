@@ -76,12 +76,10 @@
     .prog-title { font-weight: 700; }
     .prog-when { font-size: 12px; font-weight: 700; color: #185FA5; white-space: nowrap; }
     .prog-note { font-size: 12px; color: #555; margin-top: 2px; }
-    .stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin-top: 6px; }
-    .stages span { font-size: 10px; color: #888; text-align: center; white-space: nowrap; }
-    .stages i { display: block; height: 6px; border-radius: 2px; background: #e8e8e8; margin-bottom: 3px; }
-    .stages .on i { background: #185FA5; }
-    .stages .on { color: #555; }
-    .stages .now { color: #0C447C; font-weight: 700; }
+    .stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+    .stages span { font-size: 10px; line-height: 18px; color: #888; background: #eef0f3; border-radius: 999px; text-align: center; white-space: nowrap; overflow: hidden; }
+    .stages .on { background: #6F9BD1; color: #fff; }
+    .stages .now { background: #0C447C; color: #fff; font-weight: 700; }
     .pill-ap { background: #F8C4C4; color: #6B0F0F; }
     .pill-ce { background: #FDD5AE; color: #6A3300; }
     .pill-social { background: #DCCCF2; color: #3A1D6E; }
@@ -368,7 +366,7 @@ const progs = PROGRAMS.filter(p => !p.date || new Date(p.date + 'T23:59:59') >= 
   .sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
 document.getElementById('prog-list').innerHTML = progs.length ? progs.map(p => {
   const stage = Math.min(Math.max(p.stage, 1), STAGES.length);
-  const bars = STAGES.map((s, i) => `<span class="${i < stage ? 'on' : ''}${i === stage - 1 ? ' now' : ''}"><i></i>${s}</span>`).join('');
+  const bars = STAGES.map((s, i) => `<span class="${i < stage ? 'on' : ''}${i === stage - 1 ? ' now' : ''}">${s}</span>`).join('');
   const pill = COMMITTEES[p.committee] ? `<span class="pill pill-${p.committee}">${COMMITTEES[p.committee]}</span>` : '';
   return `<div class="prog-item">
     <div class="prog-top"><span>${pill}<span class="prog-title">${p.title}</span></span><span class="prog-when">${p.when || ''}</span></div>
