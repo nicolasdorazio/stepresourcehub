@@ -17,12 +17,15 @@
     .board {
       display: grid; max-width: 1280px; margin: 0 auto;
       border-top: 1px solid #000; border-left: 1px solid #000;
-      grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas:
+        "th  due   due"
+        "cal cal   prog"
+        "evt pod   lad"
+        "evt ask   lad"
+        "evt promo files";
     }
-    .main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "th due" "calrow calrow" "evt pod" "evt ask"; }
-    .cal-row { grid-area: calrow; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "cal prog"; }
-    .aside { display: flex; flex-direction: column; }
-    .aside .cell:last-child { flex: 1; }
+    .main, .aside, .cal-row { display: contents; }
     .cell { border-right: 1px solid #000; border-bottom: 1px solid #000; display: flex; flex-direction: column; min-width: 0; }
     .cell-head { background: #0C447C; color: #fff; font-weight: 700; font-size: 15px; text-align: center; padding: 10px 8px; border-bottom: 1px solid #000; }
     .cell-tag { background: #B5D4F4; color: #042C53; font-style: italic; font-size: 14px; text-align: center; padding: 6px 8px; border-bottom: 1px solid #000; }
@@ -87,7 +90,9 @@
     .pill-marketing { background: #C6EBC4; color: #14501A; }
     .pill-directors { background: #0C447C; color: #fff; }
 
-    .cal-frame { width: 100%; height: 520px; border: 1px solid #e8e8e8; }
+    .cal-body { display: flex; flex-direction: column; }
+    #cal { flex: 1; display: flex; flex-direction: column; }
+    .cal-frame { width: 100%; flex: 1; min-height: 520px; border: 1px solid #e8e8e8; }
     .cal-empty { height: 520px; background: #f6f8fb; border: 1px dashed #B5D4F4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 13px; text-align: center; padding: 16px; }
 
     .cal-legend { display: flex; gap: 18px; font-size: 13px; color: #555; padding: 8px 0 2px; align-items: center; }
@@ -109,7 +114,6 @@
           "evt   ask"
           "promo files";
       }
-      .main, .aside, .cal-row { display: contents; }
     }
     @media (max-width: 700px) {
       body { padding: 16px; }
@@ -119,7 +123,8 @@
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas: "th" "due" "lad" "cal" "prog" "evt" "pod" "promo" "files" "ask";
       }
-      .cal-frame, .cal-empty { height: 400px; }
+      .cal-frame { min-height: 400px; }
+      .cal-empty { height: 400px; }
     }
   </style>
 </head>
@@ -151,7 +156,7 @@
   <div class="cal-row">
   <section class="cell" style="grid-area: cal;">
     <div class="cell-head">STEP Calendar</div>
-    <div class="cell-body">
+    <div class="cell-body cal-body">
       <div id="cal"></div>
       <div class="row" style="padding-bottom: 0;">
         <a href="https://docs.google.com/spreadsheets/d/17ljnOo2FdIgoJjusyTFhIdA45KhCXpJP6N0AAMxDhiQ/edit" target="_blank">Visual Calendar</a>
@@ -276,7 +281,7 @@
 
 </div>
 
-<p class="footer">To request edits or report a broken link, contact <a href="mailto:ndorazio@wharton.upenn.edu">ndorazio@wharton.upenn.edu</a>.</p>
+<p class="footer">To request edits or report a broken link, contact <a href="mailto:ndorazio@wharton.upenn.edu">Nicolas</a>.</p>
 
 <script>
 // ---- Settings: fill these in, everything else updates itself ----
@@ -303,17 +308,17 @@ const DUE = [
 
 const PILLS = { ecd: 'E/CDs', board: 'Board and committees', all: 'Everyone' };
 
-// Future programming. stage: 1 = Idea, 2 = Planning, 3 = Date set, 4 = Room booked, 5 = Finalized
+// Future programming. stage: 1 = Idea, 2 = Planning, 3 = Date set, 4 = Location set, 5 = Finalized
 // committee: 'ap', 'social', 'ce', 'mentorship', 'marketing', 'internal', or 'directors'
 // when: what shows on the right. date (optional, YYYY-MM-DD): sorts the list and hides the item the day after
-const STAGES = ['Idea', 'Planning', 'Date set', 'Room booked', 'Finalized'];
+const STAGES = ['Idea', 'Planning', 'Date set', 'Location set', 'Finalized'];
 const COMMITTEES = { ap: 'A&amp;P', social: 'Social', ce: 'CE', mentorship: 'Mentorship', marketing: 'Marketing', internal: 'Internal', directors: 'Directors' };
 const PROGRAMS = [
   { title: 'Blackstone Office Hours', committee: 'ap', stage: 3, when: 'Wed, Oct 14, 7 pm', date: '2026-10-14' },
   { title: 'Fearless in Pink', committee: 'ce', stage: 3, when: 'Thu, Oct 22', date: '2026-10-22', note: 'Location and partners TBD' },
   { title: 'Natural Hair Symposium', committee: 'ce', stage: 3, when: 'Thu, Oct 29', date: '2026-10-29' },
   { title: 'Hauntsman', committee: 'social', stage: 1, when: 'October, TBD', date: '2026-10-31' },
-  { title: 'Philly Connections', committee: 'social', stage: 3, when: 'Fri, Nov 6, 12–4 pm', date: '2026-11-06', note: 'With Wharton Together. Starts with lunch with Renita Miller.' },
+  { title: 'Philly Connections', committee: 'social', stage: 4, when: 'Fri, Nov 6, 12–4 pm', date: '2026-11-06', note: 'With Wharton Together. Starts with lunch with Renita Miller.' },
   { title: 'Citi event', committee: 'ap', stage: 4, when: 'Fri, Oct 16, 9:30–10:30 am', date: '2026-10-16' },
   { title: 'Philly Day Trek', committee: 'ap', stage: 2, when: 'TBD', note: 'New date and time coming' },
   { title: 'First-Year Summer event', committee: 'ap', stage: 2, when: 'November', date: '2026-11-30' },
