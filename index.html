@@ -19,7 +19,8 @@
       border-top: 1px solid #000; border-left: 1px solid #000;
       grid-template-columns: minmax(0, 1fr) 320px;
     }
-    .main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "th due" "cal cal" "evt pod" "evt ask"; }
+    .main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "th due" "calrow calrow" "evt pod" "evt ask"; }
+    .cal-row { grid-area: calrow; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "cal prog"; }
     .aside { display: flex; flex-direction: column; }
     .aside .cell:last-child { flex: 1; }
     .cell { border-right: 1px solid #000; border-bottom: 1px solid #000; display: flex; flex-direction: column; min-width: 0; }
@@ -66,6 +67,26 @@
     .score { font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
     .ladder-note { font-size: 12px; color: #666; margin-top: 10px; }
 
+    .prog-item { padding: 9px 0; border-bottom: 1px solid #e8e8e8; }
+    .prog-item:last-child { border-bottom: none; }
+    .prog-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    .prog-title { font-weight: 700; }
+    .prog-when { font-size: 12px; font-weight: 700; color: #185FA5; white-space: nowrap; }
+    .prog-note { font-size: 12px; color: #555; margin-top: 2px; }
+    .stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin-top: 6px; }
+    .stages span { font-size: 10px; color: #888; text-align: center; white-space: nowrap; }
+    .stages i { display: block; height: 6px; border-radius: 2px; background: #e8e8e8; margin-bottom: 3px; }
+    .stages .on i { background: #185FA5; }
+    .stages .on { color: #555; }
+    .stages .now { color: #0C447C; font-weight: 700; }
+    .pill-ap { background: #F8C4C4; color: #6B0F0F; }
+    .pill-ce { background: #FDD5AE; color: #6A3300; }
+    .pill-social { background: #DCCCF2; color: #3A1D6E; }
+    .pill-internal { background: #FFF0A0; color: #4A3D00; }
+    .pill-mentorship { background: #C4DCF7; color: #0B3A6E; }
+    .pill-marketing { background: #C6EBC4; color: #14501A; }
+    .pill-directors { background: #0C447C; color: #fff; }
+
     .cal-frame { width: 100%; height: 520px; border: 1px solid #e8e8e8; }
     .cal-empty { height: 520px; background: #f6f8fb; border: 1px dashed #B5D4F4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 13px; text-align: center; padding: 16px; }
 
@@ -83,11 +104,12 @@
           "th    due"
           "lad   lad"
           "cal   cal"
+          "prog  prog"
           "evt   pod"
           "evt   ask"
           "promo files";
       }
-      .main, .aside { display: contents; }
+      .main, .aside, .cal-row { display: contents; }
     }
     @media (max-width: 700px) {
       body { padding: 16px; }
@@ -95,7 +117,7 @@
       .subtitle { font-size: 15px; }
       .board {
         grid-template-columns: minmax(0, 1fr);
-        grid-template-areas: "th" "due" "lad" "cal" "evt" "pod" "promo" "files" "ask";
+        grid-template-areas: "th" "due" "lad" "cal" "prog" "evt" "pod" "promo" "files" "ask";
       }
       .cal-frame, .cal-empty { height: 400px; }
     }
@@ -126,6 +148,7 @@
     <div class="cell-body" id="due-list"></div>
   </section>
 
+  <div class="cal-row">
   <section class="cell" style="grid-area: cal;">
     <div class="cell-head">STEP Calendar</div>
     <div class="cell-body">
@@ -136,6 +159,14 @@
       </div>
     </div>
   </section>
+
+  <section class="cell" style="grid-area: prog;">
+    <div class="cell-head">Future Programming at a Glance</div>
+    <div class="cell-body">
+      <div id="prog-list"></div>
+    </div>
+  </section>
+  </div>
 
   <section class="cell" style="grid-area: evt;">
     <div class="cell-head">Run an Event</div>
@@ -176,7 +207,7 @@
       <div class="step">
         <span class="step-n">4</span>
         <div>
-          <a class="step-title" href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer from Marketing</a>
+          <a class="step-title" href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer or WUGR from Marketing</a>
           <p class="note">Alicia &amp; the Marketing Committee can help promote your event.</p>
         </div>
       </div>
@@ -235,7 +266,7 @@
     <div class="cell-head">Promote It</div>
     <div class="cell-body">
       <div class="row"><span>Newsletter additions</span><span class="meta">text or <a href="mailto:aliciatn@wharton.upenn.edu">email Alicia</a></span></div>
-      <div class="row"><a href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer</a><span class="meta">Google Form</span></div>
+      <div class="row"><a href="https://forms.gle/fRSJYHNmUVqJ6M6V6" target="_blank">Request a flyer or WUGR</a><span class="meta">Google Form</span></div>
       <div class="row"><a href="https://upenn.box.com/s/nzrrdtlh40rzsm3gp4q3ahlens9vat65" target="_blank">Approved logos</a><span class="meta">Box folder</span></div>
       <div class="row"><a href="https://standards.wharton.upenn.edu/" target="_blank">Wharton brand standards</a><span class="meta">Website</span></div>
       <div class="row"><a href="https://www.instagram.com/step.wharton/" target="_blank">Tag our Instagram</a><span class="meta">Instagram</span></div>
@@ -271,6 +302,24 @@ const DUE = [
 ];
 
 const PILLS = { ecd: 'E/CDs', board: 'Board and committees', all: 'Everyone' };
+
+// Future programming. stage: 1 = Idea, 2 = Planning, 3 = Date set, 4 = Room booked, 5 = Finalized
+// committee: 'ap', 'social', 'ce', 'mentorship', 'marketing', 'internal', or 'directors'
+// when: what shows on the right. date (optional, YYYY-MM-DD): sorts the list and hides the item the day after
+const STAGES = ['Idea', 'Planning', 'Date set', 'Room booked', 'Finalized'];
+const COMMITTEES = { ap: 'A&amp;P', social: 'Social', ce: 'CE', mentorship: 'Mentorship', marketing: 'Marketing', internal: 'Internal', directors: 'Directors' };
+const PROGRAMS = [
+  { title: 'Blackstone Office Hours', committee: 'ap', stage: 3, when: 'Wed, Oct 14, 7 pm', date: '2026-10-14' },
+  { title: 'Fearless in Pink', committee: 'ce', stage: 3, when: 'Thu, Oct 22', date: '2026-10-22', note: 'Location and partners TBD' },
+  { title: 'Natural Hair Symposium', committee: 'ce', stage: 3, when: 'Thu, Oct 29', date: '2026-10-29' },
+  { title: 'Hauntsman', committee: 'social', stage: 1, when: 'October, TBD', date: '2026-10-31' },
+  { title: 'Philly Connections', committee: 'social', stage: 3, when: 'Fri, Nov 6, 12–4 pm', date: '2026-11-06', note: 'With Wharton Together. Starts with lunch with Renita Miller.' },
+  { title: 'Citi event', committee: 'ap', stage: 4, when: 'Fri, Oct 16, 9:30–10:30 am', date: '2026-10-16' },
+  { title: 'Philly Day Trek', committee: 'ap', stage: 2, when: 'TBD', note: 'New date and time coming' },
+  { title: 'First-Year Summer event', committee: 'ap', stage: 2, when: 'November', date: '2026-11-30' },
+  { title: 'Etiquette Dinner', committee: 'ap', stage: 2, when: 'TBD', note: 'Waiting to hear back' },
+  { title: 'Intro Mixer', committee: 'ce', stage: 2, when: 'TBD' }
+];
 
 const COHORT_COLORS = {
   Yen: '#FEEC01', Euro: '#40B4E3', Rupee: '#8A1E11', Peso: '#0559D5', Dollar: '#BFBFBF',
@@ -308,6 +357,20 @@ if (!live.length) {
     return `<div class="due-item"><div class="due-top"><span>${pill}${x.title}</span><span class="due-date">Due ${date}</span></div><div class="due-links">${links}</div></div>`;
   }).join('');
 }
+
+// Future programming
+const progs = PROGRAMS.filter(p => !p.date || new Date(p.date + 'T23:59:59') >= now)
+  .sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
+document.getElementById('prog-list').innerHTML = progs.length ? progs.map(p => {
+  const stage = Math.min(Math.max(p.stage, 1), STAGES.length);
+  const bars = STAGES.map((s, i) => `<span class="${i < stage ? 'on' : ''}${i === stage - 1 ? ' now' : ''}"><i></i>${s}</span>`).join('');
+  const pill = COMMITTEES[p.committee] ? `<span class="pill pill-${p.committee}">${COMMITTEES[p.committee]}</span>` : '';
+  return `<div class="prog-item">
+    <div class="prog-top"><span>${pill}<span class="prog-title">${p.title}</span></span><span class="prog-when">${p.when || ''}</span></div>
+    ${p.note ? `<div class="prog-note">${p.note}</div>` : ''}
+    <div class="stages" aria-label="Stage: ${STAGES[stage - 1]}">${bars}</div>
+  </div>`;
+}).join('') : '<p class="note" style="margin: 0;">Nothing on the books yet.</p>';
 
 // Calendar
 const cal = document.getElementById('cal');
