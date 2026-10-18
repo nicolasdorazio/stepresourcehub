@@ -19,11 +19,12 @@
       border-top: 1px solid #000; border-left: 1px solid #000;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       grid-template-areas:
-        "th  due   due"
-        "cal cal   prog"
-        "evt pod   lad"
-        "evt ask   lad"
-        "evt promo files";
+        "th    due   due"
+        "files due   due"
+        "cal   cal   prog"
+        "evt   pod   lad"
+        "evt   promo lad"
+        "evt   promo ask";
     }
     .main, .aside, .cal-row { display: contents; }
     .cell { border-right: 1px solid #000; border-bottom: 1px solid #000; display: flex; flex-direction: column; min-width: 0; }
