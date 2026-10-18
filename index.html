@@ -59,6 +59,7 @@
     .pill-ecd { background: #B5D4F4; color: #042C53; }
     .pill-board { background: #A6EDE3; color: #04342C; }
     .pill-all { background: #0C447C; color: #fff; }
+    .pill-optional { background: #fff; color: #555; box-shadow: inset 0 0 0 1px #aaa; }
     .due-links { margin-top: 3px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
 
     .rung { display: grid; grid-template-columns: 20px 58px minmax(0, 1fr) 46px; gap: 8px; align-items: center; padding: 6px 0; }
@@ -265,6 +266,7 @@
       <div class="row"><a href="https://drive.google.com/drive/folders/1eX-nMdXJJAs-AItHvPwpjXF3EtE3-f0z" target="_blank">E/CD folder</a><span class="meta">Google Drive folder</span></div>
       <div class="row"><a href="https://docs.google.com/spreadsheets/d/1FHw8UwgnGRuDTw367uvk7h7R1C4e37oMowmYwD8He10/edit" target="_blank">Spreadsheet Hangs</a><span class="meta">Google Sheet</span></div>
       <div class="row"><a href="https://padlet.com/ndorazio1/step-feedback-99jv2u5sjvh5r7vr" target="_blank">Feedback board</a><span class="meta">Padlet</span></div>
+      <div class="row"><a href="https://linktr.ee/step.wharton" target="_blank">STEP Linktree</a><span class="meta">Linktree</span></div>
     </div>
   </section>
 
@@ -301,7 +303,7 @@ const TOWNHALLS = ['2026-10-11', '2026-10-25', '2026-11-08', '2026-11-22', '2026
 
 // Items disappear the day after their due date
 const DUE = [
-  // tag: 'ecd' = E/CDs, 'board' = Board and committees, 'all' = Everyone
+  // tag: 'ecd' = E/CDs, 'board' = Board and committees, 'all' = Everyone, 'optional' = Optional (non-STEP opportunities)
   { title: 'Philly trek interest forms (first- and second-years)', due: '2026-10-23', tag: 'all', links: [
     ['TouchPoint', 'https://docs.google.com/forms/d/e/1FAIpQLSdhLwgaHzydifQoAvcnmm0qtxrLSR6z-VbhxVQi_o-Z7unwHw/viewform'],
     ['Five Below', 'https://forms.gle/TNNZDG82aBYcSaUV7']
@@ -312,10 +314,23 @@ const DUE = [
   ]},
   { title: 'Sign up to lead a Philly Connections group', hideAfter: '2026-11-05', tag: 'ecd', links: [
     ['Leader sign-up form', 'https://docs.google.com/forms/d/e/1FAIpQLSdw5H4f7ynF491cG3IeJGtbQ3qI9NZRPxd1CEu4gKcwKpk9Nw/viewform']
+  ]},
+  { title: 'Wharton Council recruitment survey (enter to win $10 PennCash)', due: '2026-10-20', tag: 'optional', links: [
+    ['Anonymous survey', 'https://wharton.qualtrics.com/jfe/form/SV_8kRkBCav70QgBtc']
+  ]},
+  { title: 'Audax Women in Private Debt Forum (sophomore women)', due: '2026-11-03', tag: 'optional', links: [
+    ['Apply', 'https://job-boards.greenhouse.io/audaxprivatedebt/jobs/4731227005']
+  ]},
+  { title: 'Productive Dialogue Workshops', tag: 'optional', links: [
+    ['Register', 'https://wharton.qualtrics.com/jfe/form/SV_eA5zgJA2JXtQ4Dk'],
+    ['Questions: email Megan', 'mailto:meganom@wharton.upenn.edu']
+  ]},
+  { title: 'Become a Peer Wellness Coach (sophomores and up)', tag: 'optional', links: [
+    ['Apply on Workday', 'https://www.myworkday.com/upenn/d/inst/15$392530/9925$91434.htmld']
   ]}
 ];
 
-const PILLS = { ecd: 'E/CDs', board: 'Board and committees', all: 'Everyone' };
+const PILLS = { ecd: 'E/CDs', board: 'Board and committees', all: 'Everyone', optional: 'Optional' };
 
 // Future programming. stage: 1 = Idea, 2 = Planning, 3 = Date set, 4 = Location set, 5 = Finalized
 // committee: 'ap', 'social', 'ce', 'mentorship', 'marketing', 'internal', or 'directors'
@@ -325,12 +340,12 @@ const COMMITTEES = { ap: 'A&amp;P', social: 'Social', ce: 'CE', mentorship: 'Men
 const PROGRAMS = [
   { title: 'Blackstone Office Hours', committee: 'ap', stage: 5, when: 'Wed, Oct 14, 6–7 pm', date: '2026-10-14', note: 'JMHH F45. For second-years. RJ Sylak, a former Blackstone intern who received a return offer, talks through his internship and how he approached BX recruiting. Bring questions!' },
   { title: 'Introduction to Service', committee: 'ce', stage: 5, when: 'Wed, Oct 14, 6 pm', date: '2026-10-14', note: 'JMHH F50. Hear from Civic House, Nonprofit Connect, the Netter Center, and CWiC about service opportunities at Penn.' },
-  { title: 'Fearless in Pink', committee: 'ce', stage: 3, when: 'Thu, Oct 22, 6:30 pm', date: '2026-10-22', note: 'Location TBD. Games plus a women’s health seminar for Breast Cancer Awareness Month. Wear pink!' },
-  { title: 'Natural Hair Symposium', committee: 'ce', stage: 3, when: 'Thu, Oct 29', date: '2026-10-29', note: 'An open conversation about navigating natural hair in professional and social spaces.' },
+  { title: 'Fearless in Pink', committee: 'ce', stage: 4, when: 'Thu, Oct 22, 6:30 pm', date: '2026-10-22', note: 'JMHH F90. Games plus a women’s health seminar for Breast Cancer Awareness Month. Wear pink!' },
+  { title: 'Natural Hair Symposium', committee: 'ce', stage: 3, when: 'Thu, Oct 29, 6:30 pm', date: '2026-10-29', note: 'An open conversation about navigating natural hair in professional and social spaces.' },
   { title: 'Hauntsman', committee: 'social', stage: 1, when: 'October, TBD', date: '2026-10-31' },
   { title: 'Philly Trek: Five Below', committee: 'ap', stage: 3, when: 'Thu, Nov 5, 12–3 pm', date: '2026-11-05', note: 'For first- and second-years. <a href="https://forms.gle/TNNZDG82aBYcSaUV7" target="_blank">Interest form</a> due Oct 23; spots confirmed by Oct 30.' },
   { title: 'Philly Trek: TouchPoint', committee: 'ap', stage: 3, when: 'Fri, Nov 6, 9 am–12 pm', date: '2026-11-06', note: 'For first- and second-years. <a href="https://docs.google.com/forms/d/e/1FAIpQLSdhLwgaHzydifQoAvcnmm0qtxrLSR6z-VbhxVQi_o-Z7unwHw/viewform" target="_blank">Interest form</a> due Oct 23; spots confirmed by Oct 30.' },
-  { title: 'Philly Connections', committee: 'social', stage: 4, when: 'Fri, Nov 6, 12–4 pm', date: '2026-11-06', note: 'With Wharton Together. Starts with lunch with Renita Miller.' },
+  { title: 'Philly Connections', committee: 'social', stage: 4, when: 'Fri, Nov 6, 1–4:30 pm', date: '2026-11-06', note: 'With Wharton Together. Starts with lunch at 1 pm with Renita Miller.' },
   { title: 'Citi Banking Breakfast', committee: 'ap', stage: 5, when: 'Fri, Oct 16, 9:30–10:30 am', date: '2026-10-16', note: 'JMHH 260. For second-years. Catered breakfast with first- and second-year analysts and the Citi recruiting team.' },
   { title: 'Summer Internship Panel', committee: 'ap', stage: 2, when: 'November', date: '2026-11-30', note: 'With Wharton Council and JWS.' },
   { title: 'Etiquette Dinner', committee: 'ap', stage: 2, when: 'This semester', note: 'Waiting to hear back' },
@@ -362,9 +377,10 @@ document.getElementById('th-date').textContent = next
 
 // Due soon
 const dueList = document.getElementById('due-list');
-// Items without a due date stay up until their hideAfter date (or forever) and sort last
+// Items without a due date stay up until their hideAfter date (or forever). Optional items always sort below required ones
+const sortKey = x => (x.tag === 'optional' ? '1' : '0') + (x.due || '9999');
 const live = DUE.filter(x => { const end = x.due || x.hideAfter; return !end || new Date(end + 'T23:59:59') >= now; })
-                .sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999'));
+                .sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
 if (!live.length) {
   dueList.innerHTML = '<p class="note" style="margin: 0;">Nothing due right now.</p>';
 } else {
