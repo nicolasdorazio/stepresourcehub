@@ -321,7 +321,7 @@ const DUE = [
   { title: 'Audax Women in Private Debt Forum (sophomore women)', due: '2026-11-03', tag: 'optional', links: [
     ['Apply', 'https://job-boards.greenhouse.io/audaxprivatedebt/jobs/4731227005']
   ]},
-  { title: 'Productive Dialogue Workshops', tag: 'optional', links: [
+  { title: 'Productive Dialogue Workshops', label: 'Open now / ASAP', hideAfter: '2026-11-06', tag: 'optional', links: [
     ['Register', 'https://wharton.qualtrics.com/jfe/form/SV_eA5zgJA2JXtQ4Dk'],
     ['Questions: email Megan', 'mailto:meganom@wharton.upenn.edu']
   ]},
@@ -377,7 +377,7 @@ document.getElementById('th-date').textContent = next
 
 // Due soon
 const dueList = document.getElementById('due-list');
-// Items without a due date stay up until their hideAfter date (or forever). Optional items always sort below required ones
+// Items without a due date show their label (default "Open now") and stay up until their hideAfter date (or forever). Optional items always sort below required ones
 const sortKey = x => (x.tag === 'optional' ? '1' : '0') + (x.due || '9999');
 const live = DUE.filter(x => { const end = x.due || x.hideAfter; return !end || new Date(end + 'T23:59:59') >= now; })
                 .sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
@@ -387,7 +387,7 @@ if (!live.length) {
   dueList.innerHTML = live.map(x => {
     const date = x.due
       ? 'Due ' + new Date(x.due + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-      : 'Open now';
+      : (x.label || 'Open now');
     const links = x.links.length
       ? x.links.map(l => `<a href="${l[1]}" target="_blank">${l[0]}</a>`).join('')
       : '<span class="pending">link coming soon</span>';
