@@ -594,7 +594,10 @@ if (CONFIG.chatbotUrl) {
     } catch (err) {
       history.pop(); // let them re-ask without a dangling question
       thinking.className = 'chat-msg bot error';
-      thinking.textContent = err.message || "Couldn't reach Ask STEP. Check your connection and try again.";
+      // fetch() throws a TypeError ("Failed to fetch") when the bot can't be reached at all
+      thinking.textContent = err instanceof TypeError || !err.message
+        ? "Couldn't reach Ask STEP. Check your connection and try again."
+        : err.message;
     } finally {
       send.disabled = false;
       log.scrollTop = log.scrollHeight;
