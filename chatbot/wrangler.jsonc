@@ -1,0 +1,22 @@
+{
+  // Cloudflare Worker that powers the "Ask STEP" chat box on the resource hub.
+  // Deploy steps are in chatbot/README.md.
+  "name": "step-hub-bot",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-01",
+
+  // Workers AI (free daily allowance on the Workers Free plan; stops instead of charging when used up)
+  "ai": { "binding": "AI" },
+
+  // At most 8 questions per minute from one person
+  "ratelimits": [
+    { "name": "RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 8, "period": 60 } }
+  ],
+
+  "vars": {
+    // The live hub the bot reads its information from
+    "HUB_URL": "https://nicolasdorazio.github.io/stepresourcehub/",
+    // Only pages from these sites can use the bot (comma-separated)
+    "ALLOWED_ORIGINS": "https://nicolasdorazio.github.io"
+  }
+}
