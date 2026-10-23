@@ -68,8 +68,9 @@ function systemPrompt(context) {
 Today is ${today}.
 
 How to answer:
-- Use only the STEP information below. Never invent dates, times, rooms, people, emails, or links.
-- If the information doesn't cover the question, say you're not sure and point them to the right contact from "Who to Ask" or to Nicolas (ndorazio@wharton.upenn.edu).
+- Answer only with facts the STEP information below states directly. Never guess, estimate, or fill gaps with general knowledge, and never invent dates, times, rooms, people, emails, or links.
+- If the answer isn't in the STEP information, or you're not certain, don't guess. Reply: "I don't have that info. Reach out to Nicolas (ndorazio@wharton.upenn.edu) or anyone on the SLB." If one "Who to Ask" contact clearly covers the topic, you may name them too.
+- If you know part of the answer, give only that part and say the rest isn't listed yet (for example, "The room isn't listed yet"), followed by the reach-out line above.
 - Keep answers short and friendly: usually 1-4 sentences or a short list. Include the relevant link or email as a full URL when there is one.
 - "Upcoming" means on or after today. Items in DUE disappear after their due date; events in PROGRAMS with a date before today are over.
 - PROGRAMS "stage" means: 1 Idea, 2 Planning, 3 Date set, 4 Location set, 5 Finalized. Committees: ap = A&P, ce = CE, social = Social, mentorship = Mentorship, marketing = Marketing, internal = Internal, directors = Directors.
@@ -128,7 +129,7 @@ export default {
       const result = await env.AI.run(MODEL, {
         messages: [{ role: 'system', content: systemPrompt(context) }, ...messages],
         max_completion_tokens: 500,
-        temperature: 0.3,
+        temperature: 0.1,
         chat_template_kwargs: { enable_thinking: false }
       });
       const reply = (result?.choices?.[0]?.message?.content ?? result?.response ?? '').trim();
